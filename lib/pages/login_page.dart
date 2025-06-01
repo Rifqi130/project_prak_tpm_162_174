@@ -13,11 +13,39 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  // Memeriksa status login saat aplikasi pertama kali dibuka
+  void _checkLoginStatus() async {
+    String? savedUsername = await _secureStorage.read(key: 'username');
+    String? savedPassword = await _secureStorage.read(key: 'password');
+    
+    if (savedUsername != null && savedPassword != null) {
+      // Jika data login ada, langsung masuk ke HomePage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(username: savedUsername),
+        ),
+      );
+    }
+  }
+
+  // Fungsi login untuk memverifikasi username dan password
   void login() async {
     String? savedUsername = await _secureStorage.read(key: 'username');
     String? savedPassword = await _secureStorage.read(key: 'password');
 
     if (_emailController.text == savedUsername && _passwordController.text == savedPassword) {
+      // Setelah login sukses, simpan username dan password di Secure Storage (jika perlu)
+      await _secureStorage.write(key: 'username', value: _emailController.text);
+      await _secureStorage.write(key: 'password', value: _passwordController.text);
+
+      // Navigasi ke halaman HomePage
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

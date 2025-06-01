@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     _fetchProducts();  // Mengambil data produk saat halaman diinisialisasi
   }
 
+  // Memeriksa status login saat aplikasi pertama kali dibuka
   void _loadUsername() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -66,7 +67,8 @@ class _HomePageState extends State<HomePage> {
               child: Text('Ya'),
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.setBool('isLoggedIn', false);
+                await prefs.remove('username');  // Hapus data username
+                await prefs.setBool('isLoggedIn', false);  // Set status login menjadi false
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (_) => LoginPage()),

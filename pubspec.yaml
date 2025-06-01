@@ -1,6 +1,6 @@
 name: project
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   flutter_secure_storage: ^9.2.4
   http: ^1.4.0
+  json_annotation: ^4.9.0
+  json_serializable: ^6.9.5
   shared_preferences: ^2.5.3
   url_launcher: ^6.3.1
 
